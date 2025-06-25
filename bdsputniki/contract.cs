@@ -59,12 +59,13 @@ namespace bdsputniki
                         ""Название_тарифа""
                     FROM ""Договор""
                     WHERE
-                        CAST(""Номер_договора"" AS TEXT) ILIKE @q OR
+                        (CAST(""Номер_договора"" AS TEXT) ILIKE @q OR
                         ""ФИО_клиента"" ILIKE @q OR
                         ""Наименование_провайдера"" ILIKE @q OR
                         ""Название_тарифа"" ILIKE @q OR
                         ""Тип_оборудования"" ILIKE @q OR
-                        TO_CHAR(""Дата_заключения"", 'DD.MM.YYYY') ILIKE @q
+                        TO_CHAR(""Дата_заключения"", 'DD.MM.YYYY') ILIKE @q)
+                        " + currentFilter + @"
                     ORDER BY ""Дата_заключения"" DESC";
                 NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(query, conn);
                 adapter.SelectCommand.Parameters.AddWithValue("@q", "%" + textBoxsearch.Text.Trim() + "%");
